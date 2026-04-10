@@ -26,3 +26,14 @@ SELECT title FROM tickets WHERE assignee = 'Anna';
 
 -- * znamená všechny sloupce
 -- ; ukončuje daný dotaz 
+
+
+Co dělá
+SELECT
+co chci vidět
+FROM
+odkud
+WHERE
+filtr
+GROUP BY
+seskupení
