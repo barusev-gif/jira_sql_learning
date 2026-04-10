@@ -165,3 +165,108 @@ exploratory SQL
 👉 používáš to, když:
 	•	neznáš data
 	•	chceš se v nich zorientovat
+
+
+SQL – Week 2 (SUM + CASE, Reporting)
+
+1. SUM (sčítání hodnot)
+
+SELECT SUM(column)
+FROM table;
+
+Princip:
+	•	SUM = sčítá hodnoty ve sloupci
+	•	používá se pro numerická data
+
+⸻
+
+2. CASE WHEN (podmínky v SQL)
+
+SELECT
+CASE
+WHEN condition THEN value
+ELSE value
+END
+FROM table;
+
+Princip:
+	•	CASE WHEN = podmínka (if v SQL)
+	•	umožňuje rozhodování nad daty
+
+⸻
+
+3. Vytvoření čísel z textu
+
+SELECT
+status,
+CASE
+WHEN status = ‘Open’ THEN 1
+ELSE 0
+END AS is_open
+FROM tickets;
+
+Princip:
+	•	převod textových hodnot na číselné (1 / 0)
+	•	základ pro výpočty
+
+⸻
+
+4. SUM + CASE WHEN (podmíněné počítání)
+
+SELECT
+SUM(CASE WHEN status = ‘Open’ THEN 1 ELSE 0 END) AS open_count
+FROM tickets;
+
+Princip:
+	•	počítá jen řádky, které splňují podmínku
+	•	alternativa k COUNT + WHERE
+
+⸻
+
+5. SUM + CASE + GROUP BY
+
+SELECT
+assignee,
+SUM(CASE WHEN status = ‘Open’ THEN 1 ELSE 0 END) AS open_count
+FROM tickets
+GROUP BY assignee;
+
+Princip:
+	•	výpočty pro každou skupinu (např. per assignee)
+	•	umožňuje analýzu dat podle kategorií
+
+⸻
+
+6. Více metrik v jednom dotazu (mini dashboard)
+
+SELECT assignee,
+SUM(CASE WHEN status = ‘Open’ THEN 1 ELSE 0 END) AS open_count,
+SUM(CASE WHEN status = ‘In Progress’ THEN 1 ELSE 0 END) AS in_progress_count,
+SUM(CASE WHEN status = ‘Waiting’ THEN 1 ELSE 0 END) AS waiting_count,
+SUM(CASE WHEN status = ‘Done’ THEN 1 ELSE 0 END) AS done_count
+FROM tickets
+GROUP BY assignee
+ORDER BY open_count DESC;
+
+Princip:
+	•	více metrik v jednom dotazu
+	•	přehled workloadu per assignee
+	•	základ dashboardů
+
+⸻
+
+Key learnings
+	•	SUM sčítá hodnoty, ale lze ho použít i pro počítání
+	•	CASE WHEN umožňuje vytvořit logiku v SQL
+	•	kombinace SUM + CASE = podmíněné počítání
+	•	není nutné mít numerická data → lze je vytvořit
+	•	GROUP BY + SUM CASE = reporting nad daty
+	•	ORDER BY slouží pro řazení výsledků
+
+⸻
+
+Praktické use-cases
+	•	kolik je Open / Done ticketů
+	•	workload per assignee
+	•	rozpad ticketů podle statusu
+	•	jednoduchý dashboard bez BI nástroje
