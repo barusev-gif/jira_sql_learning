@@ -270,3 +270,104 @@ Praktické use-cases
 	•	workload per assignee
 	•	rozpad ticketů podle statusu
 	•	jednoduchý dashboard bez BI nástroje
+
+1. Proč JOIN existuje
+
+Princip:
+	•	data jsou často rozdělená do více tabulek
+	•	jedna tabulka obsahuje ID (např. assignee_id)
+	•	druhá obsahuje detail (např. jméno)
+	•	JOIN umožňuje tato data propojit
+
+⸻
+
+2. Základní JOIN
+
+SELECT *
+FROM tickets
+JOIN users ON tickets.assignee_id = users.id;
+
+Princip:
+	•	JOIN spojí dvě tabulky
+	•	ON určuje podmínku spojení
+	•	výsledkem je „spojená tabulka“
+
+⸻
+
+3. Výběr konkrétních sloupců
+
+SELECT users.name, tickets.title, tickets.status
+FROM tickets
+JOIN users ON tickets.assignee_id = users.id;
+
+Princip:
+	•	po JOIN lze používat sloupce z obou tabulek
+	•	doporučeno psát název tabulky (users.name)
+
+⸻
+
+4. JOIN + GROUP BY
+
+SELECT users.name, COUNT(*)
+FROM tickets
+JOIN users ON tickets.assignee_id = users.id
+GROUP BY users.name;
+
+Princip:
+	•	GROUP BY seskupuje podle uživatele
+	•	COUNT počítá počet ticketů
+	•	umožňuje analýzu workloadu
+
+⸻
+
+5. JOIN + WHERE
+
+SELECT users.name, COUNT(*)
+FROM tickets
+JOIN users ON tickets.assignee_id = users.id
+WHERE tickets.status = ‘Open’
+GROUP BY users.name;
+
+Princip:
+	•	WHERE filtruje data před GROUP BY
+	•	umožňuje počítat pouze vybraný typ dat
+
+⸻
+
+6. GROUP BY více sloupců
+
+SELECT users.name, tickets.status, COUNT(*)
+FROM tickets
+JOIN users ON tickets.assignee_id = users.id
+GROUP BY users.name, tickets.status;
+
+Princip:
+	•	seskupení podle kombinace hodnot
+	•	umožňuje detailní rozpad dat
+
+⸻
+
+Key learnings
+	•	JOIN spojuje tabulky podle společného klíče
+	•	ON definuje vztah mezi tabulkami
+	•	po JOIN lze používat sloupce z obou tabulek
+	•	GROUP BY musí odpovídat sloupcům v SELECT
+	•	WHERE filtruje data před agregací
+	•	nesprávný JOIN vrací nesmyslná data nebo nic
+
+⸻
+
+Praktické use-cases
+	•	převod ID na jméno (assignee_id → name)
+	•	workload per user
+	•	počet ticketů podle statusu
+	•	analýza dat napříč tabulkami
+
+⸻
+
+🎯 Poznámka
+
+JOIN = jeden z nejdůležitějších konceptů v SQL
+👉 používá se v téměř každém reálném dotazu
+
+
